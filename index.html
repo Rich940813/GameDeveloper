@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- EDITAR: tu nombre y una frase corta para el título de la pestaña y Google -->
+  <title>Richard Arenas - Programador de videojuegos</title>
+  <meta name="description" content="Portafolio de Richard Arenas, ingeniero mecánico que programa videojuegos con Unity y C#.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+
+  <style>
+    /* Paleta de 3 colores: azul tinta + ámbar (complementarios) + gris papel (neutro).
+       En modo oscuro solo se intercambian fondo y texto; los colores son los mismos. */
+    :root {
+      color-scheme: light dark;
+      --ink: #1B2B4B;
+      --amber: #E8963A;
+      --paper: #F4F5F8;
+
+      --bg: var(--paper);
+      --text: var(--ink);
+      --muted: color-mix(in srgb, var(--text) 72%, var(--bg));
+      --line: color-mix(in srgb, var(--text) 20%, var(--bg));
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: var(--ink); --text: var(--paper); }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+      font-size: 1.0625rem;
+      line-height: 1.6;
+    }
+
+    .wrap { width: min(1040px, 100% - 2.5rem); margin-inline: auto; }
+
+    a { color: inherit; text-decoration-color: var(--amber); text-decoration-thickness: 3px; text-underline-offset: 4px; }
+    a:hover { text-decoration-color: currentColor; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--text); outline-offset: 3px; border-radius: 4px; }
+
+    h1, h2, h3 { line-height: 1.1; margin: 0; letter-spacing: -0.02em; }
+    p { margin: 0; max-width: 62ch; }
+
+    /* Cabecera */
+    .site-header { padding: 1.25rem 0; }
+    .site-header .wrap { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; align-items: center; justify-content: space-between; }
+    .brand { font-weight: 800; font-size: 1.2rem; text-decoration: none; }
+    .nav { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; font-weight: 500; }
+
+    /* Botones */
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.25rem;
+      border: 2px solid var(--text);
+      border-radius: 8px;
+      font: inherit;
+      font-weight: 600;
+      color: var(--text);
+      background: transparent;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .btn:hover { background: color-mix(in srgb, var(--text) 10%, var(--bg)); }
+    .btn-primary { background: var(--amber); border-color: var(--amber); color: var(--ink); }
+    .btn-primary:hover { background: var(--amber); border-color: var(--text); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.75rem; }
+
+    /* Inicio */
+    .hero { padding: clamp(2rem, 6vw, 4.5rem) 0 clamp(3rem, 8vw, 5.5rem); }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+    .hero h1 { font-size: clamp(2.4rem, 6.2vw, 4.4rem); font-weight: 800; }
+    .hero-text { margin-top: 1.25rem; font-size: 1.2rem; color: var(--muted); }
+
+    .sandbox { border: 2px solid var(--text); border-radius: 12px; overflow: hidden; }
+    .sandbox canvas { display: block; width: 100%; height: 300px; cursor: pointer; touch-action: manipulation; }
+    .sandbox-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.6rem 0.9rem; border-top: 2px solid var(--text); font-size: 0.95rem; }
+    .sandbox-bar .btn { padding: 0.35rem 0.9rem; border-width: 2px; }
+
+    /* Secciones */
+    .block { padding: clamp(3rem, 8vw, 5rem) 0; border-top: 1px solid var(--line); }
+    .block h2 { font-size: clamp(1.7rem, 3.6vw, 2.3rem); font-weight: 700; margin-bottom: 1.75rem; }
+
+    /* Proyecto */
+    .project { display: grid; grid-template-columns: 1.1fr 1fr; border: 2px solid var(--text); border-radius: 12px; overflow: hidden; }
+    .project-shot { margin: 0; background: color-mix(in srgb, var(--amber) 30%, var(--bg)); }
+    .project-shot img { display: block; width: 100%; height: 100%; min-height: 240px; object-fit: cover; }
+    .project-body { padding: clamp(1.25rem, 3vw, 2rem); display: flex; flex-direction: column; gap: 1rem; }
+    .project-body h3 { font-size: 1.6rem; font-weight: 700; }
+    .project-body ul.does { margin: 0; padding-left: 1.2rem; color: var(--muted); }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+    .tags li { border: 1.5px solid var(--text); border-radius: 999px; padding: 0.15rem 0.8rem; font-size: 0.92rem; }
+
+    /* Sobre mí */
+    .about { display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(1.5rem, 5vw, 4rem); }
+    .about p + p { margin-top: 1rem; }
+    .about h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+
+    /* Contacto */
+    .contact-list { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 0.6rem; font-size: 1.15rem; font-weight: 500; }
+
+    .site-footer { padding: 2rem 0 3rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.95rem; }
+
+    @media (max-width: 800px) {
+      .hero .wrap, .project, .about { grid-template-columns: 1fr; }
+      .project-shot img { min-height: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <!-- EDITAR: tu nombre -->
+      <a class="brand" href="#inicio">Richard Arenas</a>
+      <nav aria-label="Principal">
+        <ul class="nav">
+          <li><a href="#proyecto">Proyecto</a></li>
+          <li><a href="#sobre-mi">Sobre mí</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <!-- EDITAR: titular y presentación -->
+          <h1>Ingeniero mecánico que programa videojuegos.</h1>
+          <p class="hero-text">Estoy empezando en la industria y construyo mis proyectos con Unity y C#. Me interesa todo lo que tiene que ver con física, movimiento y cómo se siente jugar.</p>
+          <div class="btn-row">
+            <a class="btn btn-primary" href="#proyecto">Ver mi proyecto</a>
+            <a class="btn" href="#contacto">Contacto</a>
+          </div>
+        </div>
+
+        <!-- Mini simulación de física: guiño a tu perfil de ingeniero mecánico -->
+        <div class="sandbox">
+          <canvas id="sandbox" role="img" aria-label="Simulación de física con pelotas que caen y rebotan. Haz clic o toca para soltar más."></canvas>
+          <div class="sandbox-bar">
+            <span>Toca el recuadro para soltar pelotas</span>
+            <button class="btn" id="drop" type="button">Soltar pelota</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="proyecto">
+      <div class="wrap">
+        <h2>Mi proyecto de videojuegos</h2>
+
+        <article class="project">
+          <figure class="project-shot">
+            <!-- EDITAR: guarda una captura de tu juego como assets/captura.png (16:10 va bien) -->
+            <img src="assets/captura.png" alt="Agrega aquí una captura de tu juego" width="640" height="400">
+          </figure>
+
+          <div class="project-body">
+            <!-- EDITAR: nombre del juego -->
+            <h3>Nombre de tu juego</h3>
+            <!-- EDITAR: 2 frases: de qué trata, el género y qué reto técnico resolviste -->
+            <p>Describe en dos frases de qué trata tu juego, qué género es y qué problema técnico resolviste al hacerlo.</p>
+
+            <!-- EDITAR: 2 o 3 cosas concretas que programaste tú -->
+            <ul class="does">
+              <li>Lo que programaste: por ejemplo, movimiento del jugador.</li>
+              <li>Otra cosa concreta: por ejemplo, colisiones o fuerzas.</li>
+            </ul>
+
+            <!-- EDITAR: tecnologías reales del proyecto -->
+            <ul class="tags" aria-label="Tecnologías">
+              <li>Unity</li>
+              <li>C#</li>
+            </ul>
+
+            <div class="btn-row" style="margin-top: auto;">
+              <!-- EDITAR: URL exacta de tu repositorio de videojuegos en GitHub -->
+              <a class="btn btn-primary" href="https://github.com/TU-USUARIO/TU-REPOSITORIO" target="_blank" rel="noopener">Ver código en GitHub</a>
+              <!-- OPCIONAL: si publicas una versión jugable, quita los comentarios de esta línea
+              <a class="btn" href="https://TU-USUARIO.itch.io/TU-JUEGO" target="_blank" rel="noopener">Jugar</a>
+              -->
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="block" id="sobre-mi">
+      <div class="wrap about">
+        <div>
+          <h2>Sobre mí</h2>
+          <!-- EDITAR: cuéntalo con tus palabras -->
+          <p>Soy ingeniero mecánico. Me di cuenta de que lo que más disfruto de la ingeniería (fuerzas, colisiones, rotación, sistemas que se mueven) es justo lo que hace que un videojuego se sienta bien.</p>
+          <p>Por eso hice cursos de programación y de desarrollo de videojuegos, y ahora construyo proyectos propios para seguir aprendiendo. Busco mi primer puesto como programador en la industria de los videojuegos.</p>
+        </div>
+        <div>
+          <h3>Con qué trabajo</h3>
+          <!-- EDITAR: deja solo lo que realmente manejas -->
+          <ul class="tags" aria-label="Habilidades">
+            <li>Unity</li>
+            <li>C#</li>
+            <li>Física 2D</li>
+            <li>Git y GitHub</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="contacto">
+      <div class="wrap">
+        <h2>Hablemos</h2>
+        <p>Si tienes una oportunidad, una práctica o quieres darme feedback sobre mi juego, escríbeme.</p>
+        <ul class="contact-list">
+          <!-- EDITAR: tus datos reales -->
+          <li><a href="mailto:tu-correo@ejemplo.com">tu-correo@ejemplo.com</a></li>
+          <li><a href="https://www.linkedin.com/in/TU-PERFIL" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/TU-USUARIO" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">© 2026 Richard Arenas</div>
+  </footer>
+
+  <script>
+    // Mini simulación: gravedad, rebote y fricción. Respeta "reducir movimiento".
+    (function () {
+      const canvas = document.getElementById('sandbox');
+      const ctx = canvas.getContext('2d');
+      const dropBtn = document.getElementById('drop');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const GRAVITY = 1400;   // px/s^2
+      const BOUNCE = 0.78;    // pérdida de energía en cada rebote
+      const MAX_BALLS = 10;
+
+      let w = 0, h = 0, floorY = 0;
+      let balls = [];
+      let colors = { text: '#1B2B4B', accent: '#E8963A' };
+
+      function readColors() {
+        const s = getComputedStyle(document.documentElement);
+        colors = { text: s.getPropertyValue('--text').trim(), accent: s.getPropertyValue('--amber').trim() };
+        if (reduceMotion) draw();
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors);
+
+      function resize() {
+        const r = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        w = r.width; h = r.height; floorY = h - 18;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        if (reduceMotion) { restBalls(); draw(); }
+      }
+
+      function drop(x) {
+        const r = 14 + Math.random() * 10;
+        const px = typeof x === 'number' ? Math.min(Math.max(x, r), w - r) : r + Math.random() * (w - 2 * r);
+        balls.push({ x: px, y: r + 4, vx: (Math.random() - 0.5) * 260, vy: 0, r: r });
+        if (balls.length > MAX_BALLS) balls.shift();
+      }
+
+      function restBalls() {
+        balls = [0.25, 0.5, 0.75].map(function (f, i) {
+          const r = 16 + i * 4;
+          return { x: w * f, y: floorY - r, vx: 0, vy: 0, r: r };
+        });
+      }
+
+      function step(dt) {
+        balls.forEach(function (b) {
+          b.vy += GRAVITY * dt;
+          b.x += b.vx * dt;
+          b.y += b.vy * dt;
+
+          if (b.y + b.r > floorY) {
+            b.y = floorY - b.r;
+            b.vy = -b.vy * BOUNCE;
+            if (Math.abs(b.vy) < 40) b.vy = 0;
+            b.vx *= Math.pow(0.25, dt); // fricción con el suelo
+          }
+          if (b.x - b.r < 0) { b.x = b.r; b.vx = -b.vx * BOUNCE; }
+          if (b.x + b.r > w) { b.x = w - b.r; b.vx = -b.vx * BOUNCE; }
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = colors.text;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, floorY + 1);
+        ctx.lineTo(w, floorY + 1);
+        ctx.stroke();
+
+        balls.forEach(function (b) {
+          ctx.beginPath();
+          ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+          ctx.fillStyle = colors.accent;
+          ctx.fill();
+          ctx.stroke();
+        });
+      }
+
+      let last = performance.now();
+      function loop(now) {
+        const dt = Math.min((now - last) / 1000, 1 / 30);
+        last = now;
+        step(dt);
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      readColors();
+      new ResizeObserver(resize).observe(canvas);
+      resize();
+
+      if (reduceMotion) {
+        dropBtn.hidden = true;
+        canvas.style.cursor = 'default';
+      } else {
+        canvas.addEventListener('pointerdown', function (e) {
+          drop(e.clientX - canvas.getBoundingClientRect().left);
+        });
+        dropBtn.addEventListener('click', function () { drop(); });
+        drop(w * 0.3); drop(w * 0.55); drop(w * 0.8);
+        requestAnimationFrame(loop);
+      }
+    })();
+  </script>
+</body>
+</html>
