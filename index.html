@@ -147,14 +147,7 @@
         </div>
 
         <!-- Mini simulación de física: guiño a tu perfil de ingeniero mecánico -->
-        <div class="sandbox">
-          <canvas id="sandbox" role="img" aria-label="Simulación de física con pelotas que caen y rebotan. Haz clic o toca para soltar más."></canvas>
-          <div class="sandbox-bar">
-            <span>Toca el recuadro para soltar pelotas</span>
-            <button class="btn" id="drop" type="button">Soltar pelota</button>
-          </div>
-        </div>
-      </div>
+        
     </section>
 
     <section class="block" id="proyecto">
@@ -240,113 +233,6 @@
     <div class="wrap">© 2026 Richard Arenas</div>
   </footer>
 
-  <script>
-    // Mini simulación: gravedad, rebote y fricción. Respeta "reducir movimiento".
-    (function () {
-      const canvas = document.getElementById('sandbox');
-      const ctx = canvas.getContext('2d');
-      const dropBtn = document.getElementById('drop');
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      const GRAVITY = 1400;   // px/s^2
-      const BOUNCE = 0.78;    // pérdida de energía en cada rebote
-      const MAX_BALLS = 10;
-
-      let w = 0, h = 0, floorY = 0;
-      let balls = [];
-      let colors = { text: '#1B2B4B', accent: '#E8963A' };
-
-      function readColors() {
-        const s = getComputedStyle(document.documentElement);
-        colors = { text: s.getPropertyValue('--text').trim(), accent: s.getPropertyValue('--amber').trim() };
-        if (reduceMotion) draw();
-      }
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', readColors);
-
-      function resize() {
-        const r = canvas.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1;
-        w = r.width; h = r.height; floorY = h - 18;
-        canvas.width = Math.round(w * dpr);
-        canvas.height = Math.round(h * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        if (reduceMotion) { restBalls(); draw(); }
-      }
-
-      function drop(x) {
-        const r = 14 + Math.random() * 10;
-        const px = typeof x === 'number' ? Math.min(Math.max(x, r), w - r) : r + Math.random() * (w - 2 * r);
-        balls.push({ x: px, y: r + 4, vx: (Math.random() - 0.5) * 260, vy: 0, r: r });
-        if (balls.length > MAX_BALLS) balls.shift();
-      }
-
-      function restBalls() {
-        balls = [0.25, 0.5, 0.75].map(function (f, i) {
-          const r = 16 + i * 4;
-          return { x: w * f, y: floorY - r, vx: 0, vy: 0, r: r };
-        });
-      }
-
-      function step(dt) {
-        balls.forEach(function (b) {
-          b.vy += GRAVITY * dt;
-          b.x += b.vx * dt;
-          b.y += b.vy * dt;
-
-          if (b.y + b.r > floorY) {
-            b.y = floorY - b.r;
-            b.vy = -b.vy * BOUNCE;
-            if (Math.abs(b.vy) < 40) b.vy = 0;
-            b.vx *= Math.pow(0.25, dt); // fricción con el suelo
-          }
-          if (b.x - b.r < 0) { b.x = b.r; b.vx = -b.vx * BOUNCE; }
-          if (b.x + b.r > w) { b.x = w - b.r; b.vx = -b.vx * BOUNCE; }
-        });
-      }
-
-      function draw() {
-        ctx.clearRect(0, 0, w, h);
-        ctx.strokeStyle = colors.text;
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(0, floorY + 1);
-        ctx.lineTo(w, floorY + 1);
-        ctx.stroke();
-
-        balls.forEach(function (b) {
-          ctx.beginPath();
-          ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-          ctx.fillStyle = colors.accent;
-          ctx.fill();
-          ctx.stroke();
-        });
-      }
-
-      let last = performance.now();
-      function loop(now) {
-        const dt = Math.min((now - last) / 1000, 1 / 30);
-        last = now;
-        step(dt);
-        draw();
-        requestAnimationFrame(loop);
-      }
-
-      readColors();
-      new ResizeObserver(resize).observe(canvas);
-      resize();
-
-      if (reduceMotion) {
-        dropBtn.hidden = true;
-        canvas.style.cursor = 'default';
-      } else {
-        canvas.addEventListener('pointerdown', function (e) {
-          drop(e.clientX - canvas.getBoundingClientRect().left);
-        });
-        dropBtn.addEventListener('click', function () { drop(); });
-        drop(w * 0.3); drop(w * 0.55); drop(w * 0.8);
-        requestAnimationFrame(loop);
-      }
-    })();
-  </script>
 </body>
 </html>
